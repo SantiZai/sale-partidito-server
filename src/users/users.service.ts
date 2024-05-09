@@ -17,8 +17,8 @@ export class UsersService {
         email,
       },
       include: {
-        club: true
-      }
+        club: true,
+      },
     });
     if (user) return user;
     else throw new NotFoundException(`User with email ${email} not found`);
