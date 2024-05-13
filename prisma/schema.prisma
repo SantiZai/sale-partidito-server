@@ -32,6 +32,7 @@ model Club {
   createdAt DateTime @default(now())
   name      String   @unique @db.VarChar(50)
   location  String   @db.VarChar(150)
+  image     String   @db.VarChar(255)
   courts    Court[]
   admin     User     @relation(fields: [adminId], references: [id])
   adminId   String   @unique
