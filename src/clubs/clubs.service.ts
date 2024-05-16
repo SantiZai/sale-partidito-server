@@ -73,9 +73,14 @@ export class ClubsService {
     const newClub = await this.prisma.club.create({
       data: {
         ...club,
-        name: club.name.trim().toLowerCase().split(' ').join('-'),
+        name: club.name.trim().toLowerCase().split(' ').join('+'),
         // deberá recibir location del tipo ciudad, provincia, país
-        location: club.location.trim().toLowerCase().split(' ').join(''),
+        location: club.location
+          .trim()
+          .toLowerCase()
+          .split(',')
+          .map((each) => each.trim().split(' ').join('+'))
+          .join(),
       },
     });
     return newClub;
