@@ -6,6 +6,18 @@ import { PrismaService } from 'src/prisma.service';
 export class ClubsService {
   constructor(private prisma: PrismaService) {}
 
+  async getClubById(id: string): Promise<Club | null> {
+    const club = this.prisma.club.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (club) return club;
+    throw new NotFoundException(
+      'No se ha encontrado algún club en ese identificador',
+    );
+  }
+
   async getClubsByLocation(location: string): Promise<Club[] | null> {
     const clubs = this.prisma.club.findMany({
       where: {

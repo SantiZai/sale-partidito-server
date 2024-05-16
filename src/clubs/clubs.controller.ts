@@ -14,6 +14,11 @@ import { Club, SPORTS } from '@prisma/client';
 export class ClubsController {
   constructor(private clubsService: ClubsService) {}
 
+  @Get('search/:id')
+  async findById(@Param('id') id: string): Promise<Club | null> {
+    return await this.clubsService.getClubById(id);
+  }
+
   @Get(':location/:sport')
   async findByLocationAndSport(
     @Param('location') location: string,
