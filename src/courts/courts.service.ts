@@ -40,4 +40,12 @@ export class CourtsService {
     });
     return newCourt;
   }
+
+  async deleteCourtById(id: string): Promise<Court | null> {
+    return await this.prisma.court.delete({
+      where: {
+        id,
+      },
+    });
+  }
 }

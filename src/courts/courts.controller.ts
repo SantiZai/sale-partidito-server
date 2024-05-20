@@ -28,4 +28,9 @@ export class CourtsController {
   async create(@Body() court: Court): Promise<Court> {
     return await this.courtsService.createCourt(court);
   }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string): Promise<Court | null> {
+    return await this.courtsService.deleteCourtById(id);
+  }
 }
