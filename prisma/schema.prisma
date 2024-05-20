@@ -38,6 +38,7 @@ model Club {
   admin     User     @relation(fields: [adminId], references: [id])
   adminId   String   @unique
   sports    SPORTS[]
+  // TODO: add services
 }
 
 model Court {
@@ -70,4 +71,5 @@ model User {
   reservations Reservation[]
   userType     USER_TYPES    @default(user)
   club         Club?
+  // TODO: add phone number
 }
