@@ -11,6 +11,9 @@ export class ClubsService {
       where: {
         id,
       },
+      include: {
+        courts: true,
+      },
     });
     if (club) return club;
     throw new NotFoundException(
