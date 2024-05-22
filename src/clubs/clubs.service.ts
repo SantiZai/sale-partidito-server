@@ -12,7 +12,11 @@ export class ClubsService {
         id,
       },
       include: {
-        courts: true,
+        courts: {
+          include: {
+            reservations: true,
+          },
+        },
       },
     });
     if (club) return club;
