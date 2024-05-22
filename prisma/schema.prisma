@@ -27,18 +27,26 @@ enum SURFACES {
   hard
 }
 
+enum SERVICES {
+  buffet
+  showers
+  parking
+  grills
+  security
+}
+
 model Club {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  name      String   @unique @db.VarChar(50)
-  location  String   @db.VarChar(150)
-  image     String   @db.VarChar(255)
-  address   String   @db.VarChar(255)
+  id        String     @id @default(uuid())
+  createdAt DateTime   @default(now())
+  name      String     @unique @db.VarChar(50)
+  location  String     @db.VarChar(150)
+  image     String     @db.VarChar(255)
+  address   String     @db.VarChar(255)
   courts    Court[]
-  admin     User     @relation(fields: [adminId], references: [id])
-  adminId   String   @unique
+  admin     User       @relation(fields: [adminId], references: [id])
+  adminId   String     @unique
   sports    SPORTS[]
-  // TODO: add services
+  services  SERVICES[]
 }
 
 model Court {
@@ -57,6 +65,7 @@ model Reservation {
   createdAt DateTime @default(now())
   date      String   @db.VarChar(20)
   hour      String   @db.VarChar(20)
+  isLarge   Boolean
   court     Court    @relation(fields: [courtId], references: [id])
   courtId   String
   user      User     @relation(fields: [userId], references: [id])
@@ -68,8 +77,8 @@ model User {
   createdAt    DateTime      @default(now())
   fullname     String        @db.VarChar(50)
   email        String        @unique @db.VarChar(50)
+  phonenumber  String?       @db.VarChar(50)
   reservations Reservation[]
   userType     USER_TYPES    @default(user)
   club         Club?
-  // TODO: add phone number
 }
