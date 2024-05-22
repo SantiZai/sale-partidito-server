@@ -54,6 +54,7 @@ model Court {
   createdAt    DateTime      @default(now())
   name         String        @db.VarChar(50)
   surface      SURFACES
+  lightning    Boolean
   club         Club          @relation(fields: [clubId], references: [id])
   clubId       String
   reservations Reservation[]
