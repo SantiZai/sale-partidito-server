@@ -55,6 +55,7 @@ model Court {
   name         String        @db.VarChar(50)
   surface      SURFACES
   lightning    Boolean
+  //TODO: large price and short price
   club         Club          @relation(fields: [clubId], references: [id])
   clubId       String
   reservations Reservation[]
