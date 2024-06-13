@@ -18,6 +18,7 @@ export class UsersService {
       },
       include: {
         club: true,
+        reservations: true
       },
     });
     if (user) return user;
