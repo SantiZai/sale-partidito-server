@@ -38,9 +38,10 @@ export class ReservationsService {
   }
 
   async createReservation(reservation: Reservation): Promise<Reservation> {
-    return await this.prisma.reservation.create({
+    const newReservation = await this.prisma.reservation.create({
       data: reservation,
     });
+    return newReservation;
   }
 
   async deleteReservation(id: string): Promise<Reservation | null> {
