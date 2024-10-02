@@ -78,11 +78,13 @@ export class ClubsService {
       },
     });
 
-    const locationUrl = `${club.address.split(" ").join("%2B")},${club.location.split(" ").join("%2B").replaceAll(",", "")}`
+    const locationUrl = `${club.address.split(' ').join('%2B')},${club.location.split(' ').join('%2B').replaceAll(',', '')}`;
 
-    const response = await fetch(`https://api.distancematrix.ai/maps/api/geocode/json?address=${locationUrl}&key=${process.env.GEOCODING_ACCURATE_API_KEY}`)
-    const data = await response.json()
-    const coords = `${data.result[0].geometry.location.lat},${data.result[0].geometry.location.lng}`
+    const response = await fetch(
+      `https://api.distancematrix.ai/maps/api/geocode/json?address=${locationUrl}&key=${process.env.GEOCODING_ACCURATE_API_KEY}`,
+    );
+    const data = await response.json();
+    const coords = `${data.result[0].geometry.location.lat},${data.result[0].geometry.location.lng}`;
 
     const newClub = await this.prisma.club.create({
       data: {
@@ -94,13 +96,34 @@ export class ClubsService {
           .split(',')
           .map((each) => each.trim().split(' ').join('+'))
           .join(),
-        coords: coords
+        coords: coords,
       },
     });
     return newClub;
   }
 
   async deleteClub(id: string): Promise<Club | null> {
+    const existingClub = await this.prisma.club.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    const userToUpdate = await this.prisma.user.findUnique({
+      where: {
+        id: existingClub.adminId,
+      },
+    });
+    await this.prisma.user.update({
+      where: {
+        id: userToUpdate.id,
+      },
+      data: {
+        ...userToUpdate,
+        userType: 'user',
+      },
+    });
+
     return await this.prisma.club.delete({
       where: {
         id,
