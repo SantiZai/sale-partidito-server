@@ -77,17 +77,24 @@ export class ClubsService {
         userType: 'superadmin',
       },
     });
+
+    const locationUrl = `${club.address.split(" ").join("%2B")},${club.location.split(" ").join("%2B").replaceAll(",", "")}`
+
+    const response = await fetch(`https://api.distancematrix.ai/maps/api/geocode/json?address=${locationUrl}&key=${process.env.GEOCODING_ACCURATE_API_KEY}`)
+    const data = await response.json()
+    const coords = `${data.result[0].geometry.location.lat},${data.result[0].geometry.location.lng}`
+
     const newClub = await this.prisma.club.create({
       data: {
         ...club,
         name: club.name.trim().toLowerCase().split(' ').join('+'),
-        // deberá recibir location del tipo ciudad, provincia, país
         location: club.location
           .trim()
           .toLowerCase()
           .split(',')
           .map((each) => each.trim().split(' ').join('+'))
           .join(),
+        coords: coords
       },
     });
     return newClub;
