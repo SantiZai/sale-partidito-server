@@ -19,6 +19,11 @@ export class UsersController {
     return await this.usersService.getUsers();
   }
 
+  @Get('id/:id')
+  async findOneById(@Param('id') id: string): Promise<User | null> {
+    return await this.usersService.getUserById(id);
+  }
+
   @Get(':email')
   async findOneByEmail(@Param('email') email: string): Promise<User | null> {
     return await this.usersService.getUserByEmail(email);
